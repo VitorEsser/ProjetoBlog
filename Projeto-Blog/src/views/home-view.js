@@ -36,14 +36,22 @@ class HomeView extends LitElement {
                 font-weight: bold;
                 font-size: 28px;
             }
+            .post-content {
+                margin-top: 30px;
+            }
             .post-content > a {
                 font-size: 15px;
                 cursor: pointer;
                 color: blue;
             }
-
-
-
+            .footer-article {
+                margin-top: 50px;
+                border: 1px solid black;
+                padding: 4px;
+                border-radius: 10px;
+                justify-content: space-between;
+                display: flex;
+            }
         `;
     }
 
@@ -61,10 +69,11 @@ class HomeView extends LitElement {
                             </div>
                             <div class="post-content">
                                 ${article.content}
-                                ...<a @click="${this.bla}">Ver mais</a> 
+                                ...<a @click="${() => router.navigate(`/article/${article.id}`, article.id)}">Ver mais</a> 
                             </div>
-                            <div class="post-title">
-                                ${article.id}
+                            <div class="footer-article">
+                                <div> <b>Autor: </b> ${article.author} </div>
+                                <div> <b>Data: </b> ${this.getDate(article.creationDate)} </div> 
                             </div>
                         </div>
                     `)}`
@@ -75,6 +84,11 @@ class HomeView extends LitElement {
             `;
            
     };
+
+    getDate(dateTimeStamp){
+        var date = new Date(dateTimeStamp);
+        return date.toLocaleDateString("pt-BR");
+    }
 
     async init(){
         this.articles = await articleService.getArticleRecent();

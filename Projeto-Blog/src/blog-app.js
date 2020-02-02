@@ -1,4 +1,4 @@
-import { LitElement, html, css } from "lit-element";
+import { LitElement, html } from "lit-element";
 import Navigo from 'navigo';
 import './components/menu-bar';
 import './components/menu-item';
@@ -37,9 +37,9 @@ class BlogApp extends LitElement {
             await import('./views/user-register-view');
             this.currentRoute = html`<user-register-view></user-register-view>`; 
         })
-        .on('article/:id', async() => {
+        .on('article/:id', async(params) => {
             await import('./views/article-show-view');
-            this.currentRoute = html`<article-show-view></article-show-view>`; 
+            this.currentRoute = html`<article-show-view articleId="${params.id}"></article-show-view>`; 
         })
         .on('cadastro-artigo', async () => {
             this.route = 'cadastro-artigo';
