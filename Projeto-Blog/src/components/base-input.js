@@ -8,7 +8,7 @@ export class BaseInput extends LitElement {
 
             :host([invalid]) .input-default {
                 border-color: red;
-            }   
+            } 
             .input-default {
                 padding: 7px 15px;
                 border-color: #cacaca;
@@ -19,6 +19,7 @@ export class BaseInput extends LitElement {
                 display: block;
                 width: calc(100% - 30px);
                 color: black;
+                resize: none;
             }
 
             .input-default:focus {

@@ -1,5 +1,5 @@
 import { LitElement, html, css } from "lit-element";
-import {socialService, articleService, securityService} from '../blog-app'
+import {socialService, articleService, securityService, router} from '../blog-app'
 
 class HomeView extends LitElement {
 
@@ -36,6 +36,11 @@ class HomeView extends LitElement {
                 font-weight: bold;
                 font-size: 28px;
             }
+            .post-content > a {
+                font-size: 15px;
+                cursor: pointer;
+                color: blue;
+            }
 
 
 
@@ -56,6 +61,10 @@ class HomeView extends LitElement {
                             </div>
                             <div class="post-content">
                                 ${article.content}
+                                ...<a @click="${this.bla}">Ver mais</a> 
+                            </div>
+                            <div class="post-title">
+                                ${article.id}
                             </div>
                         </div>
                     `)}`
@@ -66,7 +75,6 @@ class HomeView extends LitElement {
             `;
            
     };
-
 
     async init(){
         this.articles = await articleService.getArticleRecent();

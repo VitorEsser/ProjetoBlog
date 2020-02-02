@@ -3,6 +3,7 @@ import { router,articleService } from "../blog-app";
 import '../components/text-input';
 import '../components/dm-button';
 import '../components/form-field';
+import '../components/textarea-input';
 
 class ArticleRegisterView extends LitElement {
 
@@ -49,9 +50,6 @@ class ArticleRegisterView extends LitElement {
                 font-size: 15px;
                 font-weight: bold;
             }
-            .textarea{
-                resize: none;
-            }
             .footer {
                 text-align: right;
             }
@@ -72,15 +70,10 @@ class ArticleRegisterView extends LitElement {
                 </form-field>
 
                 <form-field title="Conteúdo" .errorMessage=${this.getInvalidMessage('content')}>
-                    <textarea
-                        id="contentText"
-                        maxlength="400"
-                        rows="7"
-                        cols="80"
-                        ?invalid=${this.isFieldInvalid('content')}  
+                    <textarea-input
+                        ?invalid=${this.isFieldInvalid('content')}
                         .value="${this.fields.content}" 
-                        @change="${this.handleChange('content')}">
-                    </textarea>                
+                        @change="${this.handleChange('content')}"></textarea-input>
                 </form-field>
                  <div class="footer">
                     <dm-button danger value="Cancelar" @click="${() => router.navigate("/home")}"></dm-button>
@@ -137,12 +130,6 @@ class ArticleRegisterView extends LitElement {
     }
 
     async submit() {
-        
-        this.fields.content = this.shadowRoot.querySelector('#contentText').value;
-        console.log(this.fields.content);
-
-        /* this.fields.content = document.getElementById('#contentText').value; */
-        /* this.fields.content = document.querySelector('#contentText').value; */
 
         this.submitted = true;
         this.validate();
