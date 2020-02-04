@@ -39,7 +39,7 @@ class BlogApp extends LitElement {
         })
         .on('article/:id', async(params) => {
             await import('./views/article-show-view');
-            this.currentRoute = html`<article-show-view articleId="${params.id}"></article-show-view>`; 
+            this.currentRoute = html`<article-show-view articleId="${params.id}" .logado="${this.logged}"></article-show-view>`; 
         })
         .on('cadastro-artigo', async () => {
             this.route = 'cadastro-artigo';

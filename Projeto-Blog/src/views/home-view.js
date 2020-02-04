@@ -1,19 +1,17 @@
 import { LitElement, html, css } from "lit-element";
-import {socialService, articleService, securityService, router} from '../blog-app'
+import { articleService, router} from '../blog-app'
 
 class HomeView extends LitElement {
 
     constructor(){
         super();
         this.articles = [];
-        this.logged = false;
         this.user;
     }
 
     static get properties() {
         return {
             articles: { type: Array },
-            logged: { type: Boolean },
             user: { type: Object },
         }
     }
@@ -35,9 +33,11 @@ class HomeView extends LitElement {
                 padding: 20px;
                 font-weight: bold;
                 font-size: 28px;
+                word-wrap: break-word;
             }
             .post-content {
                 margin-top: 30px;
+                word-wrap: break-word;
             }
             .post-content > a {
                 font-size: 15px;
@@ -58,30 +58,23 @@ class HomeView extends LitElement {
     render() {
         
         return html`
-            ${ this.logged
-            ? 
+            ${this.articles.map(article =>
                 html`
-                    ${this.articles.map(article =>
-                        html`
-                        <div class="post">
-                            <div class="post-title">
-                                ${article.title}
-                            </div>
-                            <div class="post-content">
-                                ${article.content}
-                                ...<a @click="${() => router.navigate(`/article/${article.id}`, article.id)}">Ver mais</a> 
-                            </div>
-                            <div class="footer-article">
-                                <div> <b>Autor: </b> ${article.author} </div>
-                                <div> <b>Data: </b> ${this.getDate(article.creationDate)} </div> 
-                            </div>
-                        </div>
-                    `)}`
-            : 
-                html`Olá`
-            }
-                    
-            `;
+                <div class="post">
+                    <div class="post-title">
+                        ${article.title}
+                    </div>
+                    <div class="post-content">
+                        ${article.content}
+                        ...<a @click="${() => router.navigate(`/article/${article.id}`, article.id)}">Ver mais</a> 
+                    </div>
+                    <div class="footer-article">
+                        <div> <b>Autor: </b> ${article.author} </div>
+                        <div> <b>Data: </b> ${this.getDate(article.creationDate)} </div> 
+                    </div>
+                </div>
+            `)}
+        `;
            
     };
 
@@ -94,19 +87,8 @@ class HomeView extends LitElement {
         this.articles = await articleService.getArticleRecent();
     }
 
-    async isAuthenticated(){
-        try {
-            this.user = await securityService.getUser();
-            this.logged = true;
-        } catch (e) {
-            this.logged = false;
-        }
-        
-    }
-
     async firstUpdated() {
         await this.init();
-        await this.isAuthenticated();
     }
     
 }
